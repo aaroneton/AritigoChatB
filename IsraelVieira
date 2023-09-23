@@ -1,0 +1,80 @@
+const botToken = '645XXXXX1115:AAHF9FS2lZFkcBJ_SABYH1Y0vPc0HAii21g'; // é a chave token do bot
+const planilhaID = '1-JdBluqOawZOc1UnaexHyiJx9ICgwHCM3AZfVJfXMcY'; //entre as aspas simples está o id da planilha
+const appGoogleURL = 'https://script.google.com/macros/s/AKfycbyRrUtDsdqKUrCctiWxWp4WrSl5dp587DBAXXlNvzQigVrjCYJKIxjHUYWbqwFQlssRsQ/exec'; //cada nova implantação deve-se alterar essa url
+
+
+function setWebhook() {
+  const url = 'https://api.telegram.org/bot' + botToken + '/setWebhook?url=' + appGoogleURL; //essa função permite a comunicação entre o telegram e a planilha google
+  const response = UrlFetchApp.fetch(url);
+  console.log(response.getContentText());
+}
+
+function separarPalavras(text) {
+  return text.split(" ");
+}
+
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents); // Conteúdo da requisição do Telegram
+  const planilha = SpreadsheetApp.openById(planilhaID);
+
+  const messageText = data.message.text.toLowerCase(); // Converte o texto da mensagem para minúsculas
+
+  // Verifica se a mensagem começa com o comando "/micro"
+  if (messageText.startsWith('/micro')) {
+    // Obtém a referência para a aba "Micro"
+    const abaMicro = planilha.getSheetByName('Micro');
+
+    if (!abaMicro) {
+      planilha.insertSheet('Micro'); // Cria a aba "Micro" se ela não existir
+    }
+
+    // Adiciona a mensagem completa na aba "Micro"
+    abaMicro.appendRow([new Date(), data.message.from.first_name, data.message.from.last_name, data.message.text]);
+
+    const words = separarPalavras(data.message.text); // Divide a mensagem em palavras usando espaço como separador
+
+    // Adiciona cada palavra em uma coluna separada na aba "Micro"
+    for (let i = 0; i < words.length; i++) {
+      abaMicro.getRange(abaMicro.getLastRow(), i + 5).setValue(words[i]);
+    }
+
+    const resposta = 'Dados registrados na aba /Micro: ' + words.join(', ');
+    const url = 'https://api.telegram.org/bot' + botToken + '/sendMessage?chat_id=' + data.message.chat.id + '&text=' + encodeURIComponent(resposta);
+    const response = UrlFetchApp.fetch(url);
+  }
+
+  // Verifica se a mensagem começa com o comando "/geladeiras"
+  if (messageText.startsWith('/geladeiras')) {
+    // Obtém a referência para a aba "Geladeiras"
+    const abaGeladeiras = planilha.getSheetByName('Geladeiras');
+
+    if (!abaGeladeiras) {
+      planilha.insertSheet('Geladeiras'); // Cria a aba "Geladeiras" se ela não existir
+    }
+
+    // Adiciona a mensagem completa na aba "Geladeiras"
+    abaGeladeiras.appendRow([new Date(), data.message.from.first_name, data.message.from.last_name, data.message.text]);
+
+    const words = separarPalavras(data.message.text); // Divide a mensagem em palavras usando espaço como separador
+
+    // Adiciona cada palavra em uma coluna separada na aba "Geladeiras"
+    for (let i = 0; i < words.length; i++) {
+      abaGeladeiras.getRange(abaGeladeiras.getLastRow(), i + 5).setValue(words[i]);
+    }
+
+    const resposta = 'Dados registrados na aba /Geladeiras: ' + words.join(', ');
+    const url = 'https://api.telegram.org/bot' + botToken + '/sendMessage?chat_id=' + data.message.chat.id + '&text=' + encodeURIComponent(resposta);
+    const response = UrlFetchApp.fetch(url);
+
+
+  }
+  if (messageText.startsWith('/ajuda')){
+
+
+
+    const resposta = "Para realizar o registro de temperatura selecione a aba correta (/Geladeiras ou /Micro) e digite o valor de cada termometro, separando cada valor com espaço.                                                                     Registre os valores na ordem correta. Após digitar, envie a mensagem e os valores serão registrados.                                                                                                           Ordem Geladeiras: Gel.2; Temp. Min.; Temp. Max; Soroteca; Gel 5; Cong. 4;  Gel. 8; Cong 7.                                              Ordem Micro: Ainda a definir";
+
+    const url = 'https://api.telegram.org/bot' + botToken + '/sendMessage?chat_id=' + data.message.chat.id + '&text=' + encodeURIComponent(resposta);
+    const response = UrlFetchApp.fetch(url);
+    }
+}
