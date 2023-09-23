@@ -1,5 +1,6 @@
 # AritigoChatB
 Estratégias de Fortalecimento da Atenção Primária: Usos da Linguagem de Programação para Melhorar e Otimizar os Cuidados e Qualidade Hospitalar
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8373217.svg)](https://doi.org/10.5281/zenodo.8373217)
 
 Resumo
 	Os Chatbots estão presentes em aplicativos de mensagens como ferramentas preciosas para empresas de todos os nichos, de forma a responder de forma rápida e independente do horário que foi acionada. O mesmo processo foi realizado pelo presente trabalho com o intuito de realizar o registro de temperatura e dispor em planilhas para o acompanhamento em tempo real, cujo algarismo desenvolvido conseguiu fazer a ponte entre o aplicativo Telegram e Google Planilhas e cumprir as normativas estabelecidas pelas fiscalizadoras.
