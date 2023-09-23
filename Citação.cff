@@ -1,0 +1,12 @@
+cff-version: 1.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Vieira dos Santos"
+  given-names: "Israel"
+  orcid: "https://orcid.org/0000-0003-2125-7596"
+title: "Estratégias de Fortalecimento da Atenção Primária:
+Usos da Linguagem de Programação para Melhorar e Otimizar os Cuidados e Qualidade Hospitalar"
+version: 1.0
+doi: 10.5281/zenodo.8373217
+date-released: 2023-09-23
+url: "https://doi.org/10.5281/zenodo.8373217"
